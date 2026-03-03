@@ -13,7 +13,7 @@ namespace FirebaseWebGL.Editor
         private readonly OnSdkInjector sdkInjector;
         private readonly string postfix;
 
-        internal delegate string OnSdkInjector(string postfix);
+        internal delegate void OnSdkInjector(StringBuilder sb, string propertyName, string postfix);
 
         internal ModularApiInjector(string rootName, string sdkName, string postfix, string sourcePath, string[] injectedExports, OnSdkInjector sdkInjector)
         {
@@ -41,7 +41,9 @@ namespace FirebaseWebGL.Editor
 
         public StringBuilder InjectSdk(StringBuilder sb)
         {
-            return sb.AppendLine($"{rootName}.{sdkName} = {sdkInjector(postfix)};");
+            var propertyName = $"{rootName}.{sdkName}";
+            sdkInjector(sb, propertyName, postfix);
+            return sb;
         }
 
         public bool apiSupported => !string.IsNullOrWhiteSpace(apiName) && injectedExports != null;

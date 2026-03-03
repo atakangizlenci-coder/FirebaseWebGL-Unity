@@ -206,10 +206,10 @@ namespace FirebaseWebGL.Editor
                 var app = new ModularApiInjector(rootName, sdkName, postfix: null, scriptsToInject[sdkName], new[]
                 {
                     "initializeApp", "setLogLevel",
-                }, (postfix) =>
+                }, (sb, propertyName, postfix) =>
                 {
                     var injectConfig = $"{{ apiKey: \"{settings.apiKey}\", authDomain: \"{settings.authDomain}\", projectId: \"{settings.projectId}\", storageBucket: \"{settings.storageBucket}\", messagingSenderId: \"{settings.messagingSenderId}\", appId: \"{settings.appId}\", measurementId: \"{settings.measurementId}\" }}";
-                    return $"initializeApp{postfix}({injectConfig})";
+                    sb.AppendLine($"{propertyName} = initializeApp{postfix}({injectConfig});");
                 });
                 injectors.Add(app);
             }
@@ -219,9 +219,9 @@ namespace FirebaseWebGL.Editor
                 var auth = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
                     "getAuth", "ActionCodeOperation", "ActionCodeURL", "AuthCredential", "AuthErrorCodes", "EmailAuthCredential", "EmailAuthProvider", "FacebookAuthProvider", "FactorId", "GithubAuthProvider", "GoogleAuthProvider", "OAuthCredential", "OAuthProvider", "OperationType", "PhoneAuthCredential", "PhoneAuthProvider", "PhoneMultiFactorGenerator", "ProviderId", "RecaptchaVerifier", "SAMLAuthProvider", "SignInMethod", "TotpMultiFactorGenerator", "TotpSecret", "TwitterAuthProvider", "applyActionCode", "beforeAuthStateChanged", "browserCookiePersistence", "browserLocalPersistence", "browserPopupRedirectResolver", "browserSessionPersistence", "checkActionCode", "confirmPasswordReset", "connectAuthEmulator", "createUserWithEmailAndPassword", "debugErrorMap", "deleteUser", "fetchSignInMethodsForEmail", "getAdditionalUserInfo", "getIdToken", "getIdTokenResult", "getMultiFactorResolver", "getRedirectResult", "inMemoryPersistence", "indexedDBLocalPersistence", "initializeAuth", "initializeRecaptchaConfig", "isSignInWithEmailLink", "linkWithCredential", "linkWithPhoneNumber", "linkWithPopup", "linkWithRedirect", "multiFactor", "onAuthStateChanged", "onIdTokenChanged", "parseActionCodeURL", "reauthenticateWithCredential", "reauthenticateWithPhoneNumber", "reauthenticateWithPopup", "reauthenticateWithRedirect", "reload", "revokeAccessToken", "sendEmailVerification", "sendPasswordResetEmail", "sendSignInLinkToEmail", "setPersistence", "signInAnonymously", "signInWithCredential", "signInWithCustomToken", "signInWithEmailAndPassword", "signInWithEmailLink", "signInWithPhoneNumber", "signInWithPopup", "signInWithRedirect", "signOut", "unlink", "updateCurrentUser", "updateEmail", "updatePassword", "updatePhoneNumber", "updateProfile", "useDeviceLanguage", "validatePassword", "verifyBeforeUpdateEmail", "verifyPasswordResetCode",
-                }, (postfix) =>
+                }, (sb, propertyName, postfix) =>
                 {
-                    return $"getAuth{postfix}({rootName}.app)";
+                    sb.AppendLine($"{propertyName} = getAuth{postfix}({rootName}.app);");
                 });
                 injectors.Add(auth);
 
@@ -272,9 +272,9 @@ namespace FirebaseWebGL.Editor
                 if (providerConfigs.Count > 0)
                 {
                     var injectConfigs = string.Join(", ", providerConfigs);
-                    var authProviders = new ModularApiInjector(rootName, "authProviders", postfix: null, null, null, (postfix) =>
+                    var authProviders = new ModularApiInjector(rootName, "authProviders", postfix: null, null, null, (sb, propertyName, postfix) =>
                     {
-                        return $"{{ {injectConfigs} }};";
+                        sb.AppendLine($"{propertyName} = {{ {injectConfigs} }};");
                     });
                     injectors.Add(authProviders);
                 }
@@ -284,11 +284,11 @@ namespace FirebaseWebGL.Editor
                 var sdkName = FirebaseModuleNames.analytics;
                 var analytics = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
-                    "initializeAnalytics", "isSupported", "getGoogleAnalyticsClientId", "logEvent", "setAnalyticsCollectionEnabled", "setConsent", "setDefaultEventParameters", "setUserId", "setUserProperties",
-                }, (postfix) =>
+                    "initializeAnalytics", "isSupported", "getGoogleAnalyticsClientId", "logEvent", "setAnalyticsCollectionEnabled", "setConsent", "setDefaultEventParameters", "setUserId", "setUserProperties", "settings",
+                }, (sb, propertyName, postfix) =>
                 {
                     var injectConfig = $"{{ cookie_domain: window.location.hostname, cookie_flags: \"SameSite=None;Secure\" }}";
-                    return $"initializeAnalytics{postfix}({rootName}.app, {injectConfig})";
+                    sb.AppendLine($"{propertyName} = initializeAnalytics{postfix}({rootName}.app, {injectConfig});");
                 });
                 injectors.Add(analytics);
             }
@@ -298,7 +298,7 @@ namespace FirebaseWebGL.Editor
                 var appCheck = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
                     "initializeAppCheck", "getLimitedUseToken", "getToken", "onTokenChanged", "setTokenAutoRefreshEnabled", "CustomProvider", "ReCaptchaEnterpriseProvider", "ReCaptchaV3Provider"
-                }, (postfix) =>
+                }, (sb, propertyName, postfix) =>
                 {
                     var provider = settings.includeAppCheckSettings.providerType switch
                     {
@@ -310,7 +310,7 @@ namespace FirebaseWebGL.Editor
                     var isTokenAutoRefreshEnabled = settings.includeAppCheckSettings.isTokenAutoRefreshEnabled;
 
                     var injectOptions = $"{{ provider: {provider}, isTokenAutoRefreshEnabled: {(isTokenAutoRefreshEnabled ? 1 : 0)} }}";
-                    return $"initializeAppCheck{postfix}({rootName}.app, {injectOptions})";
+                    sb.AppendLine($"{propertyName} = initializeAppCheck{postfix}({rootName}.app, {injectOptions});");
                 });
                 injectors.Add(appCheck);
             }
@@ -320,10 +320,10 @@ namespace FirebaseWebGL.Editor
                 var functions = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
                     "getFunctions", "FunctionsError", "connectFunctionsEmulator" , "httpsCallable", "httpsCallableFromURL",
-                }, (postfix) =>
+                }, (sb, propertyName, postfix) =>
                 {
                     var injectOptions = $"\'{settings.includeFunctionsSettings.regionOnCustomDomain}\'";
-                    return $"getFunctions{postfix}({rootName}.app, {injectOptions})";
+                    sb.AppendLine($"{propertyName} = getFunctions{postfix}({rootName}.app, {injectOptions});");
                 });
                 injectors.Add(functions);
             }
@@ -333,9 +333,9 @@ namespace FirebaseWebGL.Editor
                 var messaging = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
                     "getMessaging", "isSupported", "getToken", "deleteToken", "onMessage",
-                }, (postfix) =>
+                }, (sb, propertyName, postfix) =>
                 {
-                    return $"getMessaging{postfix}({rootName}.app)";
+                    sb.AppendLine($"{propertyName} = getMessaging{postfix}({rootName}.app);");
                 });
                 injectors.Add(messaging);
 
@@ -345,9 +345,9 @@ namespace FirebaseWebGL.Editor
                     var messagingSw = new ModularApiInjector(rootName, sdkNameSw, postfix: sdkNameSw, scriptsToInject[sdkNameSw], new[]
                     {
                         "getMessaging", "isSupported", "experimentalSetDeliveryMetricsExportedToBigQueryEnabled",
-                    }, (postfix) =>
+                    }, (sb, propertyName, postfix) =>
                     {
-                        return $"getMessaging{postfix}({rootName}.app)";
+                        sb.AppendLine($"{propertyName} = getMessaging{postfix}({rootName}.app);");
                     });
                     injectors.Add(messagingSw);
                 }
@@ -358,9 +358,9 @@ namespace FirebaseWebGL.Editor
                 var remoteConfig = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
                     "getRemoteConfig", "isSupported", "activate", "ensureInitialized", "fetchAndActivate", "fetchConfig", "getAll", "getBoolean", "getNumber", "getString", "getValue", "onConfigUpdate", "setCustomSignals", "setLogLevel",
-                }, (postfix) =>
+                }, (sb, propertyName, postfix) =>
                 {
-                    return $"getRemoteConfig{postfix}({rootName}.app)";
+                    sb.AppendLine($"{propertyName} = getRemoteConfig{postfix}({rootName}.app);");
                 });
                 injectors.Add(remoteConfig);
             }
@@ -371,9 +371,9 @@ namespace FirebaseWebGL.Editor
                 var installations = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
                     "getInstallations", "deleteInstallations", "getId", "getToken", "onIdChange",
-                }, (postfix) =>
+                }, (sb, propertyName, postfix) =>
                 {
-                    return $"getInstallations{postfix}({rootName}.app)";
+                    sb.AppendLine($"{propertyName} = getInstallations{postfix}({rootName}.app);");
                 });
                 injectors.Add(installations);
             }
@@ -384,9 +384,9 @@ namespace FirebaseWebGL.Editor
                 var performance = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
                     "getPerformance", "trace",
-                }, (postfix) =>
+                }, (sb, propertyName, postfix) =>
                 {
-                    return $"getPerformance{postfix}({rootName}.app)";
+                    sb.AppendLine($"{propertyName} = getPerformance{postfix}({rootName}.app);");
                 });
                 injectors.Add(performance);
             }
@@ -397,7 +397,7 @@ namespace FirebaseWebGL.Editor
                 var storage = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
                     "getStorage", "connectStorageEmulator", "deleteObject", "getBlob", "getBytes", "getDownloadURL", "getMetadata", "getStream", "list", "ref", "updateMetadata", "uploadBytes", "uploadBytesResumable", "uploadString",
-                }, (postfix) =>
+                }, (sb, propertyName, postfix) =>
                 {
                     var bucketUrl = settings.includeStorageSettings.bucketUrl;
                     if (!string.IsNullOrWhiteSpace(bucketUrl))
@@ -415,11 +415,11 @@ namespace FirebaseWebGL.Editor
                         if (uri.Scheme != "gs")
                             throw new Exception($"{nameof(bucketUrl)} should starts with 'gs://' scheme");
 
-                        return $"getStorage{postfix}({rootName}.app, \'" + uri.ToString() + "\')";
+                        sb.AppendLine($"{propertyName} = getStorage{postfix}({rootName}.app, \'" + uri.ToString() + "\');");
                     }
                     else
                     {
-                        return $"getStorage{postfix}({rootName}.app)";
+                        sb.AppendLine($"{propertyName} = getStorage{postfix}({rootName}.app);");
                     }
                 });
                 injectors.Add(storage);
