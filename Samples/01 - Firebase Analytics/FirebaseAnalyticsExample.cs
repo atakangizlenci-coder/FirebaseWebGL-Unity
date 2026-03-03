@@ -45,7 +45,7 @@ namespace FirebaseWebGL.Samples
                 { "username", "test_player" },
             });
             _analytics.SetAnalyticsCollectionEnabled(true);
-            _analytics.SetDefaultEventParameters(new Dictionary<string, string>()
+            _analytics.SetDefaultEventParameters(new Dictionary<string, object>()
             {
                 { "platform", Application.platform.ToString() },
                 { "version", Application.version },

@@ -127,7 +127,7 @@ namespace FirebaseWebGL
             FirebaseWebGL_FirebaseAnalytics_setUserProperties(propertiesAsJson);
         }
 
-        public void SetDefaultEventParameters(Dictionary<string, string> parameters)
+        public void SetDefaultEventParameters(Dictionary<string, object> parameters)
         {
             if (!isInitialized)
                 throw new FirebaseModuleNotInitializedException(this);
