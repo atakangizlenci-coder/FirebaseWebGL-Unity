@@ -284,10 +284,11 @@ namespace FirebaseWebGL.Editor
                 var sdkName = FirebaseModuleNames.analytics;
                 var analytics = new ModularApiInjector(rootName, sdkName, postfix: sdkName, scriptsToInject[sdkName], new[]
                 {
-                    "getAnalytics", "isSupported", "getGoogleAnalyticsClientId", "logEvent", "setAnalyticsCollectionEnabled", "setConsent", "setDefaultEventParameters", "setUserId", "setUserProperties",
+                    "initializeAnalytics", "isSupported", "getGoogleAnalyticsClientId", "logEvent", "setAnalyticsCollectionEnabled", "setConsent", "setDefaultEventParameters", "setUserId", "setUserProperties",
                 }, (postfix) =>
                 {
-                    return $"getAnalytics{postfix}({rootName}.app)";
+                    var injectConfig = $"{{ cookie_domain: window.location.hostname, cookie_flags: \"SameSite=None;Secure\" }}";
+                    return $"initializeAnalytics{postfix}({rootName}.app, {injectConfig})";
                 });
                 injectors.Add(analytics);
             }
