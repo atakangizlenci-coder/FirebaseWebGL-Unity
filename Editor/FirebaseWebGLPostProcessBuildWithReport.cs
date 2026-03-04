@@ -18,7 +18,6 @@ namespace FirebaseWebGL.Editor
 
         private const string indexFilename = "index.html";
         private const string remarkValue = "injected-by-firebase-for-webgl-plugin";
-        private const string bundledFolder = "./FirebaseBundle";
         private const string indent = "  ";
         private const string rootName = "firebaseSdk";
         private const string envSettingsPathKey = "FIREBASE_WEBGL_SETTINGS_PATH";
@@ -290,7 +289,7 @@ namespace FirebaseWebGL.Editor
                     var dataLayerName = settings.includeAnalyticsSettings.dataLayerName;
                     sb.AppendLine($"settings{postfix}({{ dataLayerName: \"{dataLayerName}\" }});");
 
-                    var injectConfig = $"{{ cookie_domain: window.location.hostname, cookie_flags: \"SameSite=None;Secure\" }}";
+                    var injectConfig = $"{{ cookie_domain: window.location.hostname, cookie_flags: \"SameSite=None;Secure\", cookie_prefix: \"_fbwgl\" }}";
                     sb.AppendLine($"{propertyName} = initializeAnalytics{postfix}({rootName}.app, {injectConfig});");
                 });
                 injectors.Add(analytics);
@@ -450,6 +449,7 @@ namespace FirebaseWebGL.Editor
                   .Append(indent).AppendLine($"window.gtag(\"config\", \"{settings.measurementId}\", {{")
                   .Append(indent).Append(indent).AppendLine("cookie_domain: window.location.hostname,")
                   .Append(indent).Append(indent).AppendLine("cookie_flags: \"SameSite=None;Secure\",")
+                  .Append(indent).Append(indent).AppendLine("cookie_prefix: \"_fbwgl\",")
                   .Append(indent).AppendLine($"}});")
                   .AppendLine();
             }
