@@ -10,6 +10,7 @@ namespace FirebaseWebGL.Editor
         private SerializedProperty _includeAuth;
         private SerializedProperty _includeAuthSettings;
         private SerializedProperty _includeAnalytics;
+        private SerializedProperty _includeAnalyticsSettings;
         private SerializedProperty _includeAppCheck;
         private SerializedProperty _includeAppCheckSettings;
         private SerializedProperty _includeFunctions;
@@ -27,6 +28,7 @@ namespace FirebaseWebGL.Editor
             _includeAuth = serializedObject.FindProperty(nameof(_includeAuth));
             _includeAuthSettings = serializedObject.FindProperty(nameof(_includeAuthSettings));
             _includeAnalytics = serializedObject.FindProperty(nameof(_includeAnalytics));
+            _includeAnalyticsSettings = serializedObject.FindProperty(nameof(_includeAnalyticsSettings));
             _includeAppCheck = serializedObject.FindProperty(nameof(_includeAppCheck));
             _includeAppCheckSettings = serializedObject.FindProperty(nameof(_includeAppCheckSettings));
             _includeFunctions = serializedObject.FindProperty(nameof(_includeFunctions));
@@ -52,6 +54,12 @@ namespace FirebaseWebGL.Editor
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.PropertyField(_includeAnalytics);
+            if (_includeAnalytics.boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_includeAnalyticsSettings, includeChildren: true);
+                EditorGUI.indentLevel--;
+            }
             EditorGUILayout.PropertyField(_includeAppCheck);
             if (_includeAppCheck.boolValue)
             {
@@ -241,6 +249,30 @@ namespace FirebaseWebGL.Editor
                 var isTokenAutoRefreshEnabled = property.FindPropertyRelative("_isTokenAutoRefreshEnabled");
                 r.height = EditorGUI.GetPropertyHeight(isTokenAutoRefreshEnabled);
                 EditorGUI.PropertyField(r, isTokenAutoRefreshEnabled);
+                r.y += r.height;
+            }
+        }
+
+        [CustomPropertyDrawer(typeof(FirebaseSettings.AnalyticsSettings))]
+        sealed class AnalyticsSettingsDrawer : PropertyDrawer
+        {
+            public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+            {
+                var height = 0.0f;
+
+                var regionOrCustomDomain = property.FindPropertyRelative("_dataLayerName");
+                height += EditorGUI.GetPropertyHeight(regionOrCustomDomain);
+
+                return height;
+            }
+
+            public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+            {
+                var r = position;
+
+                var regionOrCustomDomain = property.FindPropertyRelative("_dataLayerName");
+                r.height = EditorGUI.GetPropertyHeight(regionOrCustomDomain);
+                EditorGUI.PropertyField(r, regionOrCustomDomain);
                 r.y += r.height;
             }
         }

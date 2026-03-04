@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace FirebaseWebGL
@@ -44,6 +43,9 @@ namespace FirebaseWebGL
         [SerializeField, HideInInspector]
         private bool _includeAnalytics;
         public bool includeAnalytics => _includeAnalytics;
+        [SerializeField, HideInInspector]
+        private AnalyticsSettings _includeAnalyticsSettings;
+        public AnalyticsSettings includeAnalyticsSettings => _includeAnalyticsSettings;
         [SerializeField, HideInInspector]
         private bool _includeAppCheck;
         public bool includeAppCheck => _includeAppCheck;
@@ -154,6 +156,14 @@ namespace FirebaseWebGL
                 ReCaptchaV3 = 0,
                 ReCaptchaEnterprise = 1,
             }
+        }
+
+        [Serializable]
+        public sealed class AnalyticsSettings
+        {
+            [SerializeField]
+            private string _dataLayerName = "dataLayerFirebaseWebGL";
+            public string dataLayerName => _dataLayerName;
         }
 
         [Serializable]

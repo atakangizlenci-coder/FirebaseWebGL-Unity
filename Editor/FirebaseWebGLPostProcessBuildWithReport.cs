@@ -21,7 +21,6 @@ namespace FirebaseWebGL.Editor
         private const string bundledFolder = "./FirebaseBundle";
         private const string indent = "  ";
         private const string rootName = "firebaseSdk";
-        private const string dataLayerName = "dataLayerFirebaseWebGL";
         private const string envSettingsPathKey = "FIREBASE_WEBGL_SETTINGS_PATH";
         private static readonly Encoding utf8 = new UTF8Encoding(false);
 
@@ -288,7 +287,8 @@ namespace FirebaseWebGL.Editor
                     "initializeAnalytics", "isSupported", "getGoogleAnalyticsClientId", "logEvent", "setAnalyticsCollectionEnabled", "setConsent", "setDefaultEventParameters", "setUserId", "setUserProperties", "settings",
                 }, (sb, propertyName, postfix) =>
                 {
-                    sb.AppendLine($"settings{postfix}({{ dataLayerName: \"{dataLayerName}\" }})");
+                    var dataLayerName = settings.includeAnalyticsSettings.dataLayerName;
+                    sb.AppendLine($"settings{postfix}({{ dataLayerName: \"{dataLayerName}\" }});");
 
                     var injectConfig = $"{{ cookie_domain: window.location.hostname, cookie_flags: \"SameSite=None;Secure\" }}";
                     sb.AppendLine($"{propertyName} = initializeAnalytics{postfix}({rootName}.app, {injectConfig});");
@@ -441,14 +441,18 @@ namespace FirebaseWebGL.Editor
             var sb = new StringBuilder();
             sb.AppendLine();
             sb.Append(indent).AppendLine("// Import the functions you need from the SDKs you need");
-            /* TODO: remove this *gtag* modification later (official bug fix is in progress) */
-            sb.Append(indent).AppendLine($"window.{dataLayerName} = window.{dataLayerName} || [];")
-              .Append(indent).AppendLine($"window.gtag = function() {{ window.{dataLayerName}.push(arguments); }}")
-              .Append(indent).AppendLine($"window.gtag(\"config\", \"{settings.measurementId}\", {{")
-              .Append(indent).Append(indent).AppendLine("cookie_domain: window.location.hostname,")
-              .Append(indent).Append(indent).AppendLine("cookie_flags: \"SameSite=None;Secure\",")
-              .Append(indent).AppendLine($"}});")
-              .AppendLine();
+            if (settings.includeAnalytics)
+            {
+                var dataLayerName = settings.includeAnalyticsSettings.dataLayerName;
+                /* TODO: remove this *gtag* modification later (official bug fix is in progress) */
+                sb.Append(indent).AppendLine($"window.{dataLayerName} = window.{dataLayerName} || [];")
+                  .Append(indent).AppendLine($"window.gtag = function() {{ window.{dataLayerName}.push(arguments); }}")
+                  .Append(indent).AppendLine($"window.gtag(\"config\", \"{settings.measurementId}\", {{")
+                  .Append(indent).Append(indent).AppendLine("cookie_domain: window.location.hostname,")
+                  .Append(indent).Append(indent).AppendLine("cookie_flags: \"SameSite=None;Secure\",")
+                  .Append(indent).AppendLine($"}});")
+                  .AppendLine();
+            }
 
             foreach (var injector in injectors)
             {
